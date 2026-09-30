@@ -1,0 +1,100 @@
+.panelnav-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 44px;
+    width: max-content;
+}
+
+/* The site/content ancestors constrain width for the normal single-panel
+   case. Only relax that constraint while a panel is open, so two
+   fixed-width (65ch) panels have room to sit side by side, and so the
+   pair can be centered as a unit rather than clipped or squeezed. */
+body.panelnav-active #dokuwiki__content .pad.group,
+body.panelnav-active .page.group {
+    max-width: none !important;
+}
+
+body.panelnav-active #dokuwiki__content .pad.group {
+    width: 100%;
+}
+
+body.panelnav-active .panelnav-wrapper {
+    margin: 0 auto;
+}
+
+#panelnav-left,
+#panelnav-right {
+    flex: 0 0 auto;
+    width: 90ch; /* size by own content, don't stretch or shrink */
+}
+
+#panelnav-right {
+    position: relative;
+    padding-left: 4px;
+}
+
+#panelnav-right.panelnav-hidden {
+    display: none;
+}
+
+.panelnav-actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 4px;
+}
+
+#panelnav-right .topBanner {
+    align-items: center;
+}
+
+.panelnav-header-right {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.panelnav-actions button {
+    border: 0px;
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    line-height: 1.2;
+    padding: 0 3px;
+}
+
+#panelnav-close {
+    font-size: 1.2rem;
+}
+
+.panelnav-actions button:hover {
+    background: white;
+    color: black;
+}
+
+@media (min-width: 1200px) {
+    body.panelnav-active .panelnav-wrapper {
+        align-items: stretch;
+        height: calc(100vh - 2rem);
+    }
+
+    body.panelnav-active #panelnav-left,
+    body.panelnav-active #panelnav-right {
+        box-sizing: border-box;
+        height: 100%;
+        max-height: 100%;
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    body.panelnav-active #panelnav-left::-webkit-scrollbar,
+    body.panelnav-active #panelnav-right::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
