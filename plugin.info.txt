@@ -4,4 +4,4 @@ email   hey@kenan.fyi
 date    2026-09-19
 name    Panel Navigation
 desc    Persistent panel feature for dokuwiki to improve reading experience.
-url     https://github.com/kenandotfyi/panelnav
+url     https://github.com/kenandotfyi/dokuwiki-plugin-panelnav
