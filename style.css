@@ -48,6 +48,12 @@ body.panelnav-active .panelnav-wrapper {
     align-items: center;
 }
 
+/* The site header sits outside the independently scrolling panels. Keep each
+   panel's sticky page banner at the top of its own scrollport. */
+body.panelnav-active .panelnav-panel .topBanner {
+    top: 0;
+}
+
 .panelnav-header-right {
     display: flex;
     flex: 0 0 auto;
@@ -75,9 +81,20 @@ body.panelnav-active .panelnav-wrapper {
 }
 
 @media (min-width: 1200px) {
+    /* In two-panel mode, scrolling belongs to the panels rather than the
+       document viewport. Prevent the page itself from drifting underneath. */
+    html:has(body.panelnav-active) {
+        overflow: hidden;
+    }
+
+    body.panelnav-active {
+        height: 100vh;
+        overflow: hidden;
+    }
+
     body.panelnav-active .panelnav-wrapper {
         align-items: stretch;
-        height: calc(100vh - 2rem);
+        height: calc(100vh - 3rem);
     }
 
     body.panelnav-active #panelnav-left,
@@ -85,6 +102,7 @@ body.panelnav-active .panelnav-wrapper {
         box-sizing: border-box;
         height: 100%;
         max-height: 100%;
+        min-height: 0;
         overflow-y: auto;
         overscroll-behavior-y: contain;
         scrollbar-width: none;
