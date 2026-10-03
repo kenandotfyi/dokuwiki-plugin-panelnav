@@ -25,17 +25,30 @@ class action_plugin_panelnav extends ActionPlugin
     }
 
     public function addAssets(Event $event) {
+        $adapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
+
+        foreach ($adapters as $adapter) {
+            if (!$this->getConf('adapter_' . $adapter)) continue;
+            $event->data['script'][] = [
+                'type' => 'text/javascript',
+                'charset' => 'utf-8',
+                '_data' => '',
+                // DOKU_PLUGIN is a filesystem path (e.g. /var/www/html/lib/plugins/),
+                // not a URL. Build browser asset URLs from DOKU_BASE instead.
+                'src' => DOKU_BASE . 'lib/plugins/panelnav/adapters/' . $adapter . '.js'
+            ];
+        }
+
         $event->data['script'][] = [
             'type' => 'text/javascript',
             'charset' => 'utf-8',
             '_data'   => '',
-            'src'  => DOKU_PLUGIN.'panelnav/script.js'
+            'src'  => DOKU_BASE . 'lib/plugins/panelnav/script.js'
         ];
-        $event->data['style'][] = [
+        $event->data['link'][] = [
+            'rel' => 'stylesheet',
             'type' => 'text/css',
-            'charset' => 'utf-8',
-            '_data'   => '',
-            'href' => DOKU_PLUGIN.'panelnav/style.css'
+            'href' => DOKU_BASE . 'lib/plugins/panelnav/style.css'
         ];
     }
 }

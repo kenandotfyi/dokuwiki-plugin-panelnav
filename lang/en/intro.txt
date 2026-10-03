@@ -1,0 +1,1 @@
+Manage Panelnav's optional integrations here. An adapter is loaded only when it is enabled and its companion plugin is installed and enabled. The two-panel navigation feature remains available regardless of these settings.

@@ -7,7 +7,7 @@
 
 /* The site/content ancestors constrain width for the normal single-panel
    case. Only relax that constraint while a panel is open, so two
-   fixed-width (65ch) panels have room to sit side by side, and so the
+   fixed-width panels have room to sit side by side, and so the
    pair can be centered as a unit rather than clipped or squeezed. */
 body.panelnav-active #dokuwiki__content .pad.group,
 body.panelnav-active .page.group {
@@ -25,12 +25,11 @@ body.panelnav-active .panelnav-wrapper {
 #panelnav-left,
 #panelnav-right {
     flex: 0 0 auto;
-    width: 90ch; /* size by own content, don't stretch or shrink */
+    width: var(--content-column-width, 45rem);
 }
 
 #panelnav-right {
     position: relative;
-    padding-left: 4px;
 }
 
 #panelnav-right.panelnav-hidden {
@@ -94,7 +93,8 @@ body.panelnav-active .panelnav-panel .topBanner {
 
     body.panelnav-active .panelnav-wrapper {
         align-items: stretch;
-        height: calc(100vh - 3rem);
+        /* The template header above the panels is about 2.2rem tall. */
+        height: calc(100vh - 2.2rem);
     }
 
     body.panelnav-active #panelnav-left,
