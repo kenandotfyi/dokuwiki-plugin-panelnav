@@ -25,6 +25,16 @@ class action_plugin_panelnav extends ActionPlugin
     }
 
     public function addAssets(Event $event) {
+        $panelWidth = $this->getConf('panel_width');
+        if (!is_numeric($panelWidth) || (float)$panelWidth < 25 || (float)$panelWidth > 100) {
+            $panelWidth = 50;
+        }
+        $panelWidth = rtrim(rtrim(number_format((float)$panelWidth, 2, '.', ''), '0'), '.');
+        $event->data['style'][] = [
+            'type' => 'text/css',
+            '_data' => ':root{--panelnav-panel-width:' . $panelWidth . 'rem;}'
+        ];
+
         $adapters = ['preview', 'prettyphoto', 'annotations', 'katex'];
 
         foreach ($adapters as $adapter) {

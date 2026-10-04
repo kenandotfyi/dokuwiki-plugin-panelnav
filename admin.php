@@ -24,6 +24,11 @@ class admin_plugin_panelnav extends AdminPlugin
         return 160;
     }
 
+    public function getMenuIcon()
+    {
+        return __DIR__ . '/admin.svg';
+    }
+
     public function getMenuText($language)
     {
         return $this->getLang('menu');
@@ -49,6 +54,16 @@ class admin_plugin_panelnav extends AdminPlugin
 
             $settings = $configuration->getSettings();
             $changed = false;
+            $widthKey = 'plugin____panelnav____panel_width';
+            if (isset($settings[$widthKey]) && !$settings[$widthKey]->isProtected()) {
+                $widthInput = trim($INPUT->post->str('panel_width'));
+                if (!is_numeric($widthInput) || (float)$widthInput < 25 || (float)$widthInput > 100) {
+                    msg($this->getLang('invalid_width'), -1);
+                    return;
+                }
+                $changed = $settings[$widthKey]->update((float)$widthInput) || $changed;
+            }
+
             foreach ($this->adapters as $name => $_plugin) {
                 $key = 'plugin____panelnav____' . $name;
                 if (!isset($settings[$key]) || $settings[$key]->isProtected()) continue;
@@ -105,6 +120,13 @@ class admin_plugin_panelnav extends AdminPlugin
         }
 
         echo '</tbody></table>';
+        echo '<h2>' . hsc($this->getLang('layout')) . '</h2>';
+        echo '<table class="inline"><tbody><tr><th><label for="panelnav-panel-width">';
+        echo hsc($this->getLang('panel_width_label')) . '</label></th><td>';
+        echo '<input id="panelnav-panel-width" type="number" name="panel_width" min="25" max="100" step="0.5" value="';
+        echo hsc($this->getConf('panel_width')) . '"> rem ';
+        echo '<span>' . hsc($this->getLang('panel_width_help')) . '</span>';
+        echo '</td></tr></tbody></table>';
         echo '<p><button class="button" type="submit">' . hsc($this->getLang('save')) . '</button></p>';
         echo '</form>';
         echo '<p>' . hsc($this->getLang('config_note')) . ' ';

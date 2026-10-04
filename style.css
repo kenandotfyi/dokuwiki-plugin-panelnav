@@ -25,11 +25,24 @@ body.panelnav-active .panelnav-wrapper {
 #panelnav-left,
 #panelnav-right {
     flex: 0 0 auto;
-    width: var(--content-column-width, 45rem);
+    width: var(--panelnav-panel-width, var(--content-column-width, 45rem));
+}
+
+/* The start page skips Panelnav's panel wrapper, so set its site column
+   directly to the same configured width used by regular pages. */
+#dokuwiki__site:has(> #dokuwiki__top.panelnav-start-page) {
+    width: var(--panelnav-panel-width, var(--content-column-width, 50rem));
 }
 
 #panelnav-right {
     position: relative;
+}
+
+/* Page tools are positioned against the template's 50rem site column.
+   Keep them aligned with Panelnav's left panel at the configured width,
+   whether the right panel is open or closed. */
+body:has(#panelnav-left) #dokuwiki__pagetools {
+    right: calc(var(--content-column-width, 50rem) - var(--panelnav-panel-width, var(--content-column-width, 50rem)) - 38px);
 }
 
 #panelnav-right.panelnav-hidden {
